@@ -4,6 +4,10 @@
  */
 package todolist;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Aluno
@@ -11,12 +15,25 @@ package todolist;
 public class TelaToDoList extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaToDoList.class.getName());
+    
+    DefaultTableModel model;
+    
+    private static final String CONCLUIDA = "Concluída";    
+    private static final String NAO_CONCLUIDA = "Não concluída";
+    
+    private final ArrayList<String> tarefas = new ArrayList<>();
+    private final ArrayList<String> tarefasFiltradas = new ArrayList<>();
+    
 
     /**
      * Creates new form TelaToDoList
      */
     public TelaToDoList() {
         initComponents();
+        
+        setLocationRelativeTo(null);
+        
+        model = (DefaultTableModel) jTableTarefas.getModel();
     }
 
     /**
@@ -39,6 +56,7 @@ public class TelaToDoList extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButtonAdicionarTarefa.setText("Adicionar");
+        jButtonAdicionarTarefa.addActionListener(this::jButtonAdicionarTarefaActionPerformed);
 
         jComboBoxFiltroStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Concluído", "Não Concluido" }));
 
@@ -104,6 +122,14 @@ public class TelaToDoList extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonAdicionarTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarTarefaActionPerformed
+
+        if(jTextFieldDescricaoTarefa.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(null, "A descrição da tarefa não pode ser vazia!");
+            return;
+        }
+    }//GEN-LAST:event_jButtonAdicionarTarefaActionPerformed
 
     /**
      * @param args the command line arguments
