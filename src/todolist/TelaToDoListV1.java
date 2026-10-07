@@ -4,6 +4,9 @@
  */
 package todolist;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -126,9 +129,9 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(37, 37, 37)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldConcluidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldNaoConcluidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldConcluidas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldNaoConcluidas, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -207,9 +210,14 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
             return;
         }
         
-        tarefas.add(jTextFieldDescricaoTarefa.getText() + ";" + NAO_CONCLUIDA);
+        LocalDateTime dataAtual = LocalDateTime.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+               
+        tarefas.add(jTextFieldDescricaoTarefa.getText() + ";" + NAO_CONCLUIDA + ";" + dataAtual.format(formato));
         
         preencherTabela();
+        
+        atualizarEstatisticas();
         
         jTextFieldDescricaoTarefa.setText("");
     }//GEN-LAST:event_jButtonAdicionarTarefaActionPerformed
@@ -228,7 +236,7 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
         
         String[] dados = tarefas.get(indiceTarefaSelecionada).split(";");
         
-        tarefas.set(indiceTarefaSelecionada, dados[0] + ";" + CONCLUIDA);
+        tarefas.set(indiceTarefaSelecionada, dados[0] + ";" + CONCLUIDA + ";" + dados[2]);
         
         filtrarTabela();
         
@@ -282,7 +290,7 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
         }else{
             listaTarefas = tarefas;
         }
-        
+                
         model.setRowCount(0);
         
         for (String tarefa : listaTarefas){
@@ -290,7 +298,8 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
 
             model.addRow(new Object[]{
                 dados[0],
-                dados[1]
+                dados[1],
+                dados[2]
             });
         }
     }
@@ -345,6 +354,46 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
         }
         
         return false;
+    }
+    
+    
+    private void atualizarEstatisticas(){
+        jTextFieldTotal.setText(Integer.toString(tarefas.size()));
+        
+        jTextFieldConcluidas.setText(String.valueOf(retornarTotalConcluidas()));
+        
+        jTextFieldNaoConcluidas.setText(String.valueOf(retornarTotalNaoConcluidas()));
+        
+    }
+    
+    private int retornarTotalConcluidas(){
+        int quantidadeConcluida = 0;
+        
+        for(String tarefa : tarefas){
+            String[] dados = tarefa.split(";");
+            
+            if(dados[1].equals(CONCLUIDA)){
+                quantidadeConcluida++;
+            }
+            
+        }
+        
+        return quantidadeConcluida;        
+    }
+    
+    private int retornarTotalNaoConcluidas(){
+        int quantidadeNaoConcluida = 0;
+        
+        for(String tarefa : tarefas){
+            String[] dados = tarefa.split(";");
+            
+            if(dados[1].equals(NAO_CONCLUIDA)){
+                quantidadeNaoConcluida++;
+            }
+            
+        }
+        
+        return quantidadeNaoConcluida;        
     }
     
     /**

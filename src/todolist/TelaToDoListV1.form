@@ -187,9 +187,9 @@
                       </Group>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTextFieldTotal" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldConcluidas" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldNaoConcluidas" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextFieldTotal" min="-2" pref="70" max="-2" attributes="0"/>
+                      <Component id="jTextFieldConcluidas" min="-2" pref="70" max="-2" attributes="0"/>
+                      <Component id="jTextFieldNaoConcluidas" min="-2" pref="70" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
