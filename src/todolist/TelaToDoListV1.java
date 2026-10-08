@@ -4,6 +4,9 @@
  */
 package todolist;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -215,6 +218,8 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
                
         tarefas.add(jTextFieldDescricaoTarefa.getText() + ";" + NAO_CONCLUIDA + ";" + dataAtual.format(formato));
         
+        salvarTarefa();
+        
         preencherTabela();
         
         atualizarEstatisticas();
@@ -237,6 +242,8 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
         String[] dados = tarefas.get(indiceTarefaSelecionada).split(";");
         
         tarefas.set(indiceTarefaSelecionada, dados[0] + ";" + CONCLUIDA + ";" + dados[2]);
+        
+        atualizarEstatisticas();
         
         filtrarTabela();
         
@@ -268,6 +275,8 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
             
             preencherTabela();
         }
+        
+        atualizarEstatisticas();
         
         filtrarTabela();
         
@@ -395,6 +404,48 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
         
         return quantidadeNaoConcluida;        
     }
+    
+    private void salvarTarefa(){
+        try{
+            
+            FileWriter arquivo = new FileWriter("tarefas.txt");
+            
+            for(String tarefa : tarefas){
+                
+                arquivo.write(tarefa + "\n");
+                
+            }
+            
+            arquivo.close();
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Erro ao salvar as tarefas" );
+            
+                                
+        }
+    
+    }
+    
+    private void carregarTarefa(){
+        try{
+            BufferedReader arquivo = new BufferedReader(new FileReader ("tarefas.txt"));
+            
+            String tarefa;
+            
+            while((tarefa = arquivo.readLine()) != null){
+                
+                tarefas.add(tarefa); 
+            }
+               
+            arquivo.close();
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Erro ao salvar as tarefas");
+            
+        }
+        
+    }
+    
     
     /**
      * @param args the command line arguments
