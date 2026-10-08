@@ -42,6 +42,10 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
         model.setRowCount(0);
         
         setTitle("Lista de Tarefas V2");
+        
+        carregarTarefa();
+        preencherTabela();
+        atualizarEstatisticas();
     }
 
     /**
@@ -243,6 +247,8 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
         
         tarefas.set(indiceTarefaSelecionada, dados[0] + ";" + CONCLUIDA + ";" + dados[2]);
         
+        salvarTarefa();
+        
         atualizarEstatisticas();
         
         filtrarTabela();
@@ -275,6 +281,8 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
             
             preencherTabela();
         }
+        
+        salvarTarefa();
         
         atualizarEstatisticas();
         
